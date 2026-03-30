@@ -1,0 +1,2673 @@
+﻿<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shkolla Ime - Sistemi i Menaxhimit Shkollor</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #F8F9FA;
+  --blue: #3B82F6;
+  --blue-dark: #2563EB;
+  --blue-light: #EFF6FF;
+  --blue-mid: #BFDBFE;
+  --navy: #1E3A5F;
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --green: #10B981;
+  --green-light: #ECFDF5;
+  --red: #EF4444;
+  --red-light: #FEF2F2;
+  --orange: #F59E0B;
+  --orange-light: #FFFBEB;
+  --purple: #8B5CF6;
+  --purple-light: #F5F3FF;
+  --sidebar-w: 260px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--white);
+  color: var(--gray-800);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ===== AUTH ===== */
+#auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #EFF6FF 0%, #F8F9FA 50%, #EFF6FF 100%);
+  position: relative;
+  overflow: hidden;
+}
+#auth-screen::before {
+  content:'';
+  position:absolute;
+  width:600px; height:600px;
+  background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+  top:-100px; right:-100px;
+  border-radius:50%;
+}
+#auth-screen::after {
+  content:'';
+  position:absolute;
+  width:400px; height:400px;
+  background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+  bottom:-50px; left:-50px;
+  border-radius:50%;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 48px 44px;
+  width: 420px;
+  max-width: 95vw;
+  box-shadow: 0 20px 60px rgba(59,130,246,0.12), 0 4px 20px rgba(0,0,0,0.06);
+  position: relative;
+  z-index:1;
+}
+
+.auth-logo {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom: 32px;
+  justify-content: center;
+}
+
+.logo-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  border-radius: 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+  flex-shrink:0;
+}
+
+.logo-icon svg { width:28px; height:28px; }
+
+.logo-text h1 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing:-0.5px;
+}
+.logo-text span {
+  font-size: 12px;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+.auth-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 6px;
+  text-align:center;
+}
+.auth-sub {
+  font-size: 13px;
+  color: var(--gray-500);
+  text-align:center;
+  margin-bottom: 28px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display:block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 6px;
+}
+.form-group input, .form-group select, .form-group textarea {
+  width:100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  transition: all 0.2s;
+  outline:none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--blue);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor:pointer;
+  border:none;
+  transition: all 0.2s;
+  text-decoration:none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  color:#fff;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+.btn-primary:hover {
+  transform:translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.35);
+}
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+.btn-secondary:hover { background: var(--gray-200); }
+.btn-danger {
+  background: var(--red-light);
+  color: var(--red);
+}
+.btn-danger:hover { background: #FEE2E2; }
+.btn-success {
+  background: var(--green-light);
+  color: var(--green);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--gray-600);
+}
+.btn-ghost:hover { background: var(--gray-100); }
+.btn-full { width:100%; }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+
+.auth-error {
+  background: var(--red-light);
+  color: var(--red);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-bottom: 16px;
+  display:none;
+}
+
+/* ===== LAYOUT ===== */
+#app { display:none; }
+#app.active { display:flex; min-height:100vh; }
+
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:0; left:0; bottom:0;
+  z-index:100;
+  transition: transform 0.3s;
+}
+
+.sidebar-header {
+  padding: 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.sidebar-logo-icon {
+  width:38px; height:38px;
+  background: linear-gradient(135deg, var(--blue) 0%, #60A5FA 100%);
+  border-radius: 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.sidebar-logo-icon svg { width:20px; height:20px; }
+
+.sidebar-logo-text h2 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing:-0.3px;
+}
+.sidebar-logo-text span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+
+.sidebar-user {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.user-avatar {
+  width:34px; height:34px;
+  border-radius:50%;
+  background: linear-gradient(135deg, var(--blue) 0%, #60A5FA 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 13px;
+  font-weight: 700;
+  color:#fff;
+  flex-shrink:0;
+}
+.user-info { flex:1; min-width:0; }
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.user-role {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+
+.sidebar-nav {
+  flex:1;
+  padding: 12px 10px;
+  overflow-y:auto;
+}
+.nav-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 8px 4px;
+  margin-top: 8px;
+}
+.nav-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.6);
+  cursor:pointer;
+  transition: all 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.nav-item svg { width:17px; height:17px; flex-shrink:0; }
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+.nav-item.active { background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+
+.sidebar-footer {
+  padding: 12px 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background: var(--gray-50);
+}
+
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 28px;
+  height: 60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.topbar-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+.topbar-actions { display:flex; align-items:center; gap:10px; }
+
+.page-content {
+  padding: 24px 28px;
+  flex:1;
+}
+
+/* ===== SECTION ===== */
+.section { display:none; }
+.section.active { display:block; }
+
+/* ===== CARDS ===== */
+.stats-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap:16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background:#fff;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  transition: all 0.2s;
+}
+.stat-card:hover { box-shadow: var(--shadow-md); transform:translateY(-1px); }
+.stat-icon {
+  width:46px; height:46px;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.stat-icon svg { width:22px; height:22px; }
+.stat-info .stat-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--gray-800);
+  line-height:1;
+}
+.stat-info .stat-label {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+/* ===== CARD/PANEL ===== */
+.card {
+  background:#fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+.card-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+.card-body { padding: 20px; }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x:auto; }
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+th {
+  text-align:left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-500);
+  letter-spacing: 0.5px;
+  text-transform:uppercase;
+  padding: 10px 16px;
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+}
+td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--gray-100);
+}
+tr:last-child td { border-bottom:none; }
+tr:hover td { background: var(--blue-light); }
+
+/* ===== BADGE ===== */
+.badge {
+  display:inline-flex;
+  align-items:center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-blue { background: var(--blue-light); color: var(--blue-dark); }
+.badge-green { background: var(--green-light); color: #059669; }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-orange { background: var(--orange-light); color: #D97706; }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+.badge-gray { background: var(--gray-100); color: var(--gray-600); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position:fixed;
+  inset:0;
+  background: rgba(15,23,42,0.4);
+  backdrop-filter: blur(4px);
+  z-index:200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 20px;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.open {
+  opacity:1;
+  pointer-events:all;
+}
+.modal {
+  background:#fff;
+  border-radius: 16px;
+  width: 520px;
+  max-width:100%;
+  max-height: 90vh;
+  overflow-y:auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  transform: scale(0.96) translateY(10px);
+  transition: transform 0.2s;
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.modal-title { font-size: 16px; font-weight: 700; color: var(--gray-800); }
+.modal-close {
+  width:30px; height:30px;
+  border-radius:50%;
+  border:none;
+  background: var(--gray-100);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--gray-600);
+  transition: background 0.2s;
+}
+.modal-close:hover { background: var(--gray-200); }
+.modal-body { padding: 20px 24px; }
+.modal-footer {
+  padding: 14px 24px 20px;
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+/* ===== GRID ===== */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+
+/* ===== SCHOOL CARDS ===== */
+.school-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap:16px;
+}
+.school-card {
+  background:#fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  transition: all 0.2s;
+  cursor:pointer;
+}
+.school-card:hover { box-shadow: var(--shadow-md); transform:translateY(-2px); border-color: var(--blue-mid); }
+.school-card-logo {
+  width:56px; height:56px;
+  border-radius: 12px;
+  background: var(--blue-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom: 14px;
+  overflow:hidden;
+}
+.school-card-logo img { width:100%; height:100%; object-fit:cover; }
+.school-card-logo svg { width:28px; height:28px; color: var(--blue); }
+.school-card h3 { font-size: 15px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+.school-card p { font-size: 12px; color: var(--gray-500); }
+
+/* ===== STUDENT DETAIL ===== */
+.detail-tabs {
+  display:flex;
+  gap:4px;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 20px;
+  overflow-x:auto;
+}
+.tab-btn {
+  padding: 9px 16px;
+  border:none;
+  background:none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor:pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-btn:hover { color: var(--gray-700); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ===== NOTIFICATIONS ===== */
+.toast {
+  position:fixed;
+  bottom: 24px; right: 24px;
+  background:#fff;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-lg);
+  border-left: 3px solid var(--blue);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-800);
+  z-index: 999;
+  transform: translateX(120%);
+  transition: transform 0.3s;
+  max-width: 320px;
+}
+.toast.show { transform: translateX(0); }
+.toast.success { border-color: var(--green); }
+.toast.error { border-color: var(--red); }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align:center;
+  padding: 50px 20px;
+  color: var(--gray-400);
+}
+.empty-state svg { width:48px; height:48px; margin-bottom: 12px; opacity:0.4; }
+.empty-state p { font-size: 14px; }
+
+/* ===== SEARCH ===== */
+.search-input {
+  padding: 8px 14px 8px 38px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+  background: var(--gray-50);
+  outline:none;
+  transition: all 0.2s;
+  width: 220px;
+}
+.search-input:focus { border-color: var(--blue); background:#fff; }
+.search-wrap { position:relative; }
+.search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); width:16px; height:16px; color: var(--gray-400); pointer-events:none; }
+
+/* ===== UPLOAD AREA ===== */
+.upload-area {
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  text-align:center;
+  cursor:pointer;
+  transition: all 0.2s;
+  background: var(--gray-50);
+}
+.upload-area:hover { border-color: var(--blue); background: var(--blue-light); }
+.upload-area svg { width:32px; height:32px; color: var(--gray-400); margin-bottom: 8px; }
+.upload-area p { font-size: 13px; color: var(--gray-500); }
+.upload-area span { font-size:12px; color: var(--gray-400); }
+
+/* ===== GRADE DISPLAY ===== */
+.grade-badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px; height:36px;
+  border-radius:50%;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ===== RESPONSIVE ===== */
+.mobile-toggle {
+  display:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:6px;
+  color: var(--gray-700);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left:0; }
+  .mobile-toggle { display:flex; }
+  .page-content { padding: 16px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .grid-2 { grid-template-columns:1fr; }
+  .grid-3 { grid-template-columns:1fr; }
+  .topbar { padding: 0 16px; }
+  .school-grid { grid-template-columns:1fr; }
+}
+
+/* ===== MISC ===== */
+.separator { height:1px; background: var(--gray-100); margin: 16px 0; }
+.text-muted { color: var(--gray-500); font-size: 12px; }
+.flex { display:flex; align-items:center; }
+.flex-between { display:flex; align-items:center; justify-content:space-between; }
+.gap-2 { gap:8px; }
+.gap-3 { gap:12px; }
+.mb-16 { margin-bottom:16px; }
+.mb-20 { margin-bottom:20px; }
+.fw-600 { font-weight:600; }
+.hidden { display:none !important; }
+.welcome-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-dark) 100%);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.welcome-banner h2 { font-size:20px; font-weight:800; margin-bottom:4px; }
+.welcome-banner p { font-size:13px; opacity:0.75; }
+.welcome-icon { opacity:0.15; }
+.welcome-icon svg { width:80px; height:80px; }
+
+/* file preview */
+.file-preview-wrap {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding: 12px;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+  margin-top: 10px;
+}
+.file-preview-icon { width:40px; height:40px; border-radius:8px; background: var(--blue-light); display:flex; align-items:center; justify-content:center; }
+.file-preview-icon svg { width:20px; height:20px; color: var(--blue); }
+.file-preview-info { flex:1; min-width:0; }
+.file-preview-name { font-size:13px; font-weight:600; color:var(--gray-800); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.file-preview-size { font-size:11px; color:var(--gray-500); }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <h1>Shkolla Ime</h1>
+        <span>Sistemi i Menaxhimit Shkollor</span>
+      </div>
+    </div>
+    <h2 class="auth-title">Mirësevini</h2>
+    <p class="auth-sub">Hyni në llogarinë tuaj për të vazhduar</p>
+    <div class="auth-error" id="login-error">Emri i përdoruesit ose fjalëkalimi është i gabuar.</div>
+    <div class="form-group">
+      <label>Emri i përdoruesit</label>
+      <input type="text" id="login-user" placeholder="Shkruani emrin e përdoruesit" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>Fjalëkalimi</label>
+      <input type="password" id="login-pass" placeholder="Shkruani fjalëkalimin" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()" style="margin-top:8px;">Hyrja</button>
+    
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div class="sidebar-logo-text">
+          <h2>Shkolla Ime</h2>
+          <span>v1.0</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="sidebar-avatar">A</div>
+      <div class="user-info">
+        <div class="user-name" id="sidebar-name">Administrator</div>
+        <div class="user-role" id="sidebar-role">Admin</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" onclick="doLogout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Dilni
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-toggle" onclick="toggleSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <h1 class="topbar-title" id="topbar-title">Dashboard</h1>
+      </div>
+      <div class="topbar-actions" id="topbar-actions"></div>
+    </header>
+    <div class="page-content" id="page-content">
+      <!-- Sections injected here -->
+    </div>
+  </main>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title"></h3>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DATA STORE (localStorage simulation)
+// ============================================================
+const DB = {
+  get(k) { try { return JSON.parse(localStorage.getItem('si_'+k)||'null'); } catch(e){ return null; } },
+  set(k,v) { localStorage.setItem('si_'+k, JSON.stringify(v)); },
+  init() {
+    if(!this.get('users')) {
+      this.set('users', [
+        { id:1, username:'urimi1806', password:hashPwd('1806'), role:'admin', name:'Urimi', surname:'Admin', email:'admin@shkolla.al', phone:'', city:'' }
+      ]);
+    }
+    if(!this.get('schools')) this.set('schools',[]);
+    if(!this.get('classes')) this.set('classes',[]);
+    if(!this.get('teachers')) this.set('teachers',[]);
+    if(!this.get('students')) this.set('students',[]);
+    if(!this.get('parents')) this.set('parents',[]);
+    if(!this.get('grades')) this.set('grades',[]);
+    if(!this.get('behaviors')) this.set('behaviors',[]);
+    if(!this.get('remarks')) this.set('remarks',[]);
+    if(!this.get('homework')) this.set('homework',[]);
+    if(!this.get('activities')) this.set('activities',[]);
+    if(!this.get('tests')) this.set('tests',[]);
+  }
+};
+
+function hashPwd(p) {
+  // Simple hash (not cryptographic, for demo)
+  let h = 0;
+  for(let i=0;i<p.length;i++) { h = ((h<<5)-h)+p.charCodeAt(i); h|=0; }
+  return 'h:'+Math.abs(h)+'_'+p.length;
+}
+
+function checkPwd(plain, hash) {
+  return hashPwd(plain) === hash;
+}
+
+function uid() { return Date.now()+'_'+Math.random().toString(36).substr(2,6); }
+
+// ============================================================
+// SESSION
+// ============================================================
+let currentUser = null;
+
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const users = DB.get('users') || [];
+  const found = users.find(x => x.username === u && checkPwd(p, x.password));
+  if(!found) {
+    document.getElementById('login-error').style.display='block';
+    return;
+  }
+  document.getElementById('login-error').style.display='none';
+  currentUser = found;
+  startApp();
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key==='Enter' && document.getElementById('auth-screen').style.display!=='none') doLogin();
+});
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('auth-screen').style.display='flex';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+}
+
+// ============================================================
+// ICONS SVG
+// ============================================================
+const icons = {
+  dashboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+  school: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  class: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+  teacher: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  student: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+  parent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  grade: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+  test: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+  activity: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 21 12"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+  homework: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+  behavior: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+};
+
+// ============================================================
+// NAVIGATION CONFIG
+// ============================================================
+function getNavItems(role) {
+  const all = {
+    admin: [
+      { section:'dashboard', label:'Dashboard', icon:'dashboard' },
+      { title:'Shkolla' },
+      { section:'schools', label:'Shkollat', icon:'school' },
+      { section:'classes', label:'Klasat', icon:'class' },
+      { title:'Personeli' },
+      { section:'teachers', label:'Mësuesit', icon:'teacher' },
+      { section:'managers', label:'Menaxherët', icon:'user' },
+      { title:'Nxënësit & Prindërit' },
+      { section:'students', label:'Nxënësit', icon:'student' },
+      { section:'parents', label:'Prindërit', icon:'parent' },
+      { title:'Akademike' },
+      { section:'grades', label:'Notat', icon:'grade' },
+      { section:'tests', label:'Testet', icon:'test' },
+      { section:'activities', label:'Aktivitetet', icon:'activity' },
+    ],
+    manager: [
+      { section:'dashboard', label:'Dashboard', icon:'dashboard' },
+      { title:'Personeli' },
+      { section:'teachers', label:'Mësuesit', icon:'teacher' },
+      { title:'Nxënësit & Prindërit' },
+      { section:'students', label:'Nxënësit', icon:'student' },
+      { section:'parents', label:'Prindërit', icon:'parent' },
+      { title:'Akademike' },
+      { section:'grades', label:'Notat', icon:'grade' },
+      { section:'tests', label:'Testet', icon:'test' },
+      { section:'activities', label:'Aktivitetet', icon:'activity' },
+    ],
+    teacher: [
+      { section:'dashboard', label:'Dashboard', icon:'dashboard' },
+      { title:'Klasa ime' },
+      { section:'students', label:'Nxënësit', icon:'student' },
+      { title:'Akademike' },
+      { section:'grades', label:'Notat', icon:'grade' },
+      { section:'behaviors', label:'Sjellja', icon:'behavior' },
+      { section:'homework', label:'Detyrat', icon:'homework' },
+      { section:'tests', label:'Testet', icon:'test' },
+      { section:'activities', label:'Aktivitetet', icon:'activity' },
+    ],
+    parent: [
+      { section:'dashboard', label:'Dashboard', icon:'dashboard' },
+      { title:'Fëmija im' },
+      { section:'child-grades', label:'Notat', icon:'grade' },
+      { section:'child-behavior', label:'Sjellja', icon:'behavior' },
+      { section:'child-homework', label:'Detyrat', icon:'homework' },
+      { section:'child-tests', label:'Testet', icon:'test' },
+      { section:'child-activities', label:'Aktivitetet', icon:'activity' },
+    ],
+  };
+  return all[role] || all.admin;
+}
+
+// ============================================================
+// START APP
+// ============================================================
+function startApp() {
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').classList.add('active');
+
+  // Sidebar user info
+  document.getElementById('sidebar-avatar').textContent = (currentUser.name||'U')[0].toUpperCase();
+  document.getElementById('sidebar-name').textContent = (currentUser.name||'') + ' ' + (currentUser.surname||'');
+  document.getElementById('sidebar-role').textContent = roleName(currentUser.role);
+
+  buildNav();
+  navigateTo('dashboard');
+}
+
+function roleName(r) {
+  return {admin:'Administrator',manager:'Menaxher',teacher:'Mësues',parent:'Prind'}[r]||r;
+}
+
+let currentSection = 'dashboard';
+
+function buildNav() {
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = '';
+  getNavItems(currentUser.role).forEach(item => {
+    if(item.title) {
+      const d = document.createElement('div');
+      d.className='nav-section-title';
+      d.textContent=item.title;
+      nav.appendChild(d);
+    } else {
+      const d = document.createElement('div');
+      d.className='nav-item';
+      d.dataset.section=item.section;
+      d.innerHTML=icons[item.icon]+item.label;
+      d.onclick=()=>navigateTo(item.section);
+      nav.appendChild(d);
+    }
+  });
+}
+
+function navigateTo(section) {
+  currentSection=section;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+  if(navItem) navItem.classList.add('active');
+
+  const titles = {
+    dashboard:'Dashboard', schools:'Shkollat', classes:'Klasat',
+    teachers:'Mësuesit', managers:'Menaxherët', students:'Nxënësit',
+    parents:'Prindërit', grades:'Notat', behaviors:'Sjellja',
+    homework:'Detyrat Shtëpie', tests:'Testet', activities:'Aktivitetet',
+    'child-grades':'Notat e Fëmijës', 'child-behavior':'Sjellja',
+    'child-homework':'Detyrat', 'child-tests':'Testet', 'child-activities':'Aktivitetet',
+  };
+  document.getElementById('topbar-title').textContent = titles[section]||section;
+
+  const pc = document.getElementById('page-content');
+  const actions = document.getElementById('topbar-actions');
+  actions.innerHTML='';
+
+  switch(section) {
+    case 'dashboard': renderDashboard(pc, actions); break;
+    case 'schools': renderSchools(pc, actions); break;
+    case 'classes': renderClasses(pc, actions); break;
+    case 'teachers': renderTeachers(pc, actions); break;
+    case 'managers': renderManagers(pc, actions); break;
+    case 'students': renderStudents(pc, actions); break;
+    case 'parents': renderParents(pc, actions); break;
+    case 'grades': renderGrades(pc, actions); break;
+    case 'behaviors': renderBehaviors(pc, actions); break;
+    case 'homework': renderHomework(pc, actions); break;
+    case 'tests': renderTests(pc, actions); break;
+    case 'activities': renderActivities(pc, actions); break;
+    case 'child-grades': renderChildSection(pc, 'grades'); break;
+    case 'child-behavior': renderChildSection(pc, 'behaviors'); break;
+    case 'child-homework': renderChildSection(pc, 'homework'); break;
+    case 'child-tests': renderChildSection(pc, 'tests'); break;
+    case 'child-activities': renderChildSection(pc, 'activities'); break;
+    default: pc.innerHTML='<div class="empty-state"><p>Seksioni nuk u gjet.</p></div>';
+  }
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(title, bodyHTML, footerHTML='') {
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').innerHTML=bodyHTML;
+  document.getElementById('modal-footer').innerHTML=footerHTML;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target===document.getElementById('modal-overlay')) closeModal(); });
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastTimer;
+function showToast(msg, type='info') {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type==='success'?'success':type==='error'?'error':'');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ============================================================
+// SIDEBAR TOGGLE
+// ============================================================
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
+function getMyStudents() {
+  const students = DB.get('students')||[];
+  if(currentUser.role==='teacher') {
+    return students.filter(s=>s.classId===currentUser.classId);
+  }
+  if(currentUser.role==='parent') {
+    return students.filter(s=>s.id===currentUser.studentId);
+  }
+  return students;
+}
+
+function getClasses() { return DB.get('classes')||[]; }
+function getSchools() { return DB.get('schools')||[]; }
+function getTeachers() { return DB.get('teachers')||[]; }
+function getStudents() { return DB.get('students')||[]; }
+function getParents() { return DB.get('parents')||[]; }
+function getGrades() { return DB.get('grades')||[]; }
+function getBehaviors() { return DB.get('behaviors')||[]; }
+function getHomework() { return DB.get('homework')||[]; }
+function getTests() { return DB.get('tests')||[]; }
+function getActivities() { return DB.get('activities')||[]; }
+function getUsers() { return DB.get('users')||[]; }
+
+function getClassName(id) {
+  const c=getClasses().find(x=>x.id===id);
+  return c?c.name:'—';
+}
+function getSchoolName(id) {
+  const s=getSchools().find(x=>x.id===id);
+  return s?s.name:'—';
+}
+function getStudentName(id) {
+  const s=getStudents().find(x=>x.id===id);
+  return s?(s.name+' '+s.surname):'—';
+}
+
+function gradeColor(g) {
+  const n=parseInt(g);
+  if(isNaN(n)) return 'gray';
+  if(n>=9) return 'green';
+  if(n>=7) return 'blue';
+  if(n>=5) return 'orange';
+  return 'red';
+}
+
+function classOptions(selected='') {
+  return getClasses().map(c=>`<option value="${c.id}" ${c.id===selected?'selected':''}>${c.name} - ${getSchoolName(c.schoolId)}</option>`).join('');
+}
+function schoolOptions(selected='') {
+  return getSchools().map(s=>`<option value="${s.id}" ${s.id===selected?'selected':''}>${s.name}</option>`).join('');
+}
+function studentOptions(selected='') {
+  return getMyStudents().map(s=>`<option value="${s.id}" ${s.id===selected?'selected':''}>${s.name} ${s.surname}</option>`).join('');
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard(pc, actions) {
+  const students=getMyStudents();
+  const teachers=getTeachers();
+  const schools=getSchools();
+  const tests=getTests();
+  const activities=getActivities();
+
+  const greeting = () => {
+    const h=new Date().getHours();
+    if(h<12) return 'Mirëmëngjes';
+    if(h<18) return 'Mirëdita';
+    return 'Mirëmbrëma';
+  };
+
+  let statsHTML = '';
+  if(currentUser.role==='admin'||currentUser.role==='manager') {
+    statsHTML=`
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-light)">
+          ${icons.school.replace('currentColor','var(--blue)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${schools.length}</div>
+          <div class="stat-label">Shkolla</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">
+          ${icons.teacher.replace('currentColor','var(--green)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${teachers.length}</div>
+          <div class="stat-label">Mësues</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--purple-light)">
+          ${icons.student.replace('currentColor','var(--purple)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${getStudents().length}</div>
+          <div class="stat-label">Nxënës</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--orange-light)">
+          ${icons.parent.replace('currentColor','var(--orange)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${getParents().length}</div>
+          <div class="stat-label">Prindër</div>
+        </div>
+      </div>
+    </div>`;
+  } else if(currentUser.role==='teacher') {
+    const myStudents=getMyStudents();
+    const myGrades=getGrades().filter(g=>myStudents.some(s=>s.id===g.studentId));
+    statsHTML=`
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--purple-light)">
+          ${icons.student.replace('currentColor','var(--purple)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${myStudents.length}</div>
+          <div class="stat-label">Nxënës në klasë</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-light)">
+          ${icons.grade.replace('currentColor','var(--blue)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${myGrades.length}</div>
+          <div class="stat-label">Nota të dhëna</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--orange-light)">
+          ${icons.test.replace('currentColor','var(--orange)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${getTests().filter(t=>myStudents.some(s=>s.id===t.studentId)).length}</div>
+          <div class="stat-label">Teste</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">
+          ${icons.activity.replace('currentColor','var(--green)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${getActivities().filter(a=>myStudents.some(s=>s.id===a.studentId)).length}</div>
+          <div class="stat-label">Aktivitete</div>
+        </div>
+      </div>
+    </div>`;
+  } else if(currentUser.role==='parent') {
+    const child=getStudents().find(s=>s.id===currentUser.studentId);
+    const myGrades=getGrades().filter(g=>g.studentId===currentUser.studentId);
+    const myTests=getTests().filter(t=>t.studentId===currentUser.studentId);
+    statsHTML=`
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--purple-light)">
+          ${icons.student.replace('currentColor','var(--purple)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${child?child.name+' '+child.surname:'—'}</div>
+          <div class="stat-label">Fëmija im</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-light)">
+          ${icons.grade.replace('currentColor','var(--blue)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${myGrades.length}</div>
+          <div class="stat-label">Nota</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--orange-light)">
+          ${icons.test.replace('currentColor','var(--orange)')}
+        </div>
+        <div class="stat-info">
+          <div class="stat-num">${myTests.length}</div>
+          <div class="stat-label">Teste</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const recentActivities = activities.slice(-5).reverse();
+
+  pc.innerHTML=`
+    <div class="welcome-banner">
+      <div>
+        <h2>${greeting()}, ${currentUser.name||'Përdorues'}! 👋</h2>
+        <p>Mirësevini në sistemin e menaxhimit të shkollës.</p>
+      </div>
+      <div class="welcome-icon">${icons.school}</div>
+    </div>
+    ${statsHTML}
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Aktivitetet e fundit</h3>
+      </div>
+      <div class="card-body">
+        ${recentActivities.length===0?`<div class="empty-state"><p>Nuk ka aktivitete të regjistruara.</p></div>`:
+          recentActivities.map(a=>`
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);">
+              <div class="stat-icon" style="background:var(--blue-light);width:36px;height:36px;">${icons.activity.replace('currentColor','var(--blue)')}</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--gray-800)">${getStudentName(a.studentId)}</div>
+                <div style="font-size:12px;color:var(--gray-500)">${a.day||''} ${a.date||''} — ${a.description||''}</div>
+              </div>
+              <div style="margin-left:auto;font-size:11px;color:var(--gray-400)">${a.date||''}</div>
+            </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// SCHOOLS
+// ============================================================
+function renderSchools(pc, actions) {
+  if(currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddSchool()">${icons.plus} Shto Shkollë</button>`;
+  }
+
+  const schools=getSchools();
+  pc.innerHTML=`
+    <div class="school-grid">
+      ${schools.length===0?`<div class="empty-state" style="grid-column:1/-1">${icons.school}<p>Nuk ka shkolla të shtuara.</p></div>`:''}
+      ${schools.map(s=>`
+        <div class="school-card" onclick="viewSchool('${s.id}')">
+          <div class="school-card-logo">
+            ${s.logoData?`<img src="${s.logoData}" alt="${s.name}">`:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`}
+          </div>
+          <h3>${s.name}</h3>
+          <p>${s.city||''} ${s.address?'— '+s.address:''}</p>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+            <span class="badge badge-blue">${getClasses().filter(c=>c.schoolId===s.id).length} klasa</span>
+            <span class="badge badge-green">${getTeachers().filter(t=>t.schoolId===s.id).length} mësues</span>
+            <span class="badge badge-purple">${getStudents().filter(st=>st.schoolId===s.id).length} nxënës</span>
+          </div>
+          ${currentUser.role==='admin'?`
+          <div style="display:flex;gap:8px;margin-top:14px;" onclick="event.stopPropagation()">
+            <button class="btn btn-secondary btn-sm" onclick="openEditSchool('${s.id}')">${icons.edit} Edito</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteSchool('${s.id}')">${icons.trash}</button>
+          </div>`:''}
+        </div>`).join('')}
+    </div>`;
+}
+
+function viewSchool(id) {
+  const s=getSchools().find(x=>x.id===id);
+  if(!s) return;
+  const classes=getClasses().filter(c=>c.schoolId===id);
+  openModal(s.name,`
+    <div style="text-align:center;margin-bottom:16px;">
+      <div class="school-card-logo" style="width:80px;height:80px;border-radius:16px;margin:0 auto 12px;">
+        ${s.logoData?`<img src="${s.logoData}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`}
+      </div>
+      <h3 style="font-size:18px;font-weight:700;">${s.name}</h3>
+      <p style="color:var(--gray-500);">${s.city||''} ${s.address?'— '+s.address:''}</p>
+    </div>
+    <div class="separator"></div>
+    <p style="font-weight:600;margin-bottom:10px;">Klasat (${classes.length})</p>
+    ${classes.length===0?'<p class="text-muted">Nuk ka klasa.</p>':
+      classes.map(c=>`<div style="padding:8px 12px;background:var(--gray-50);border-radius:8px;margin-bottom:6px;font-size:13px;font-weight:500;">${c.name}</div>`).join('')}
+  `,'<button class="btn btn-secondary" onclick="closeModal()">Mbyll</button>');
+}
+
+function openAddSchool() {
+  openModal('Shto Shkollë',`
+    <div class="form-group"><label>Emri i Shkollës *</label><input type="text" id="f-sname" placeholder="p.sh. Shkolla '...'" ></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Qyteti</label><input type="text" id="f-scity" placeholder="Prishtinë"></div>
+      <div class="form-group"><label>Adresa</label><input type="text" id="f-saddr" placeholder="Rr. ..."></div>
+    </div>
+    <div class="form-group">
+      <label>Logo (opsionale)</label>
+      <div class="upload-area" onclick="document.getElementById('logo-file').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Klikoni për të ngarkuar logon</p>
+        <span>PNG, JPG deri 2MB</span>
+      </div>
+      <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="previewLogoFile(this)">
+      <div id="logo-preview"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveSchool()">Ruaj</button>
+  `);
+}
+
+function previewLogoFile(input) {
+  const file=input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    document.getElementById('logo-preview').innerHTML=`
+      <div class="file-preview-wrap">
+        <div class="file-preview-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="file-preview-info">
+          <div class="file-preview-name">${file.name}</div>
+          <div class="file-preview-size">${(file.size/1024).toFixed(1)} KB</div>
+        </div>
+        <img src="${e.target.result}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;">
+      </div>`;
+    window._logoData=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveSchool(editId=null) {
+  const name=document.getElementById('f-sname').value.trim();
+  if(!name) { showToast('Emri është i detyrueshëm!','error'); return; }
+  const schools=getSchools();
+  if(editId) {
+    const i=schools.findIndex(s=>s.id===editId);
+    if(i>=0) {
+      schools[i]={...schools[i], name, city:document.getElementById('f-scity').value.trim(), address:document.getElementById('f-saddr').value.trim(), logoData:window._logoData||schools[i].logoData};
+    }
+  } else {
+    schools.push({id:uid(), name, city:document.getElementById('f-scity').value.trim(), address:document.getElementById('f-saddr').value.trim(), logoData:window._logoData||null});
+  }
+  window._logoData=null;
+  DB.set('schools',schools);
+  closeModal();
+  showToast(editId?'Shkolla u përditësua!':'Shkolla u shtua!','success');
+  navigateTo('schools');
+}
+
+function openEditSchool(id) {
+  const s=getSchools().find(x=>x.id===id);
+  if(!s) return;
+  window._logoData=s.logoData;
+  openModal('Edito Shkollën',`
+    <div class="form-group"><label>Emri *</label><input type="text" id="f-sname" value="${s.name}" ></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Qyteti</label><input type="text" id="f-scity" value="${s.city||''}"></div>
+      <div class="form-group"><label>Adresa</label><input type="text" id="f-saddr" value="${s.address||''}"></div>
+    </div>
+    <div class="form-group">
+      <label>Logo</label>
+      <div class="upload-area" onclick="document.getElementById('logo-file').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Klikoni për të ndryshuar logon</p>
+      </div>
+      <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="previewLogoFile(this)">
+      <div id="logo-preview">${s.logoData?`<div class="file-preview-wrap"><img src="${s.logoData}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"><span style="font-size:13px;color:var(--gray-600);">Logo aktuale</span></div>`:''}
+      </div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveSchool('${id}')">Ruaj</button>
+  `);
+}
+
+function deleteSchool(id) {
+  if(!confirm('Jeni i sigurt që doni të fshini shkollën?')) return;
+  DB.set('schools', getSchools().filter(s=>s.id!==id));
+  showToast('Shkolla u fshi.','success');
+  navigateTo('schools');
+}
+
+// ============================================================
+// CLASSES
+// ============================================================
+function renderClasses(pc, actions) {
+  if(currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddClass()">${icons.plus} Shto Klasë</button>`;
+  }
+  const classes=getClasses();
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Të gjitha klasat</h3>
+        <span class="badge badge-blue">${classes.length} klasa</span>
+      </div>
+      <div class="table-wrap">
+        ${classes.length===0?`<div class="empty-state">${icons.class}<p>Nuk ka klasa.</p></div>`:`
+        <table>
+          <thead><tr><th>Klasa</th><th>Shkolla</th><th>Nxënës</th><th>Mësues</th>${currentUser.role==='admin'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody>
+            ${classes.map(c=>`
+              <tr>
+                <td><strong>${c.name}</strong></td>
+                <td>${getSchoolName(c.schoolId)}</td>
+                <td><span class="badge badge-purple">${getStudents().filter(s=>s.classId===c.id).length}</span></td>
+                <td>${getTeachers().filter(t=>t.classId===c.id).map(t=>t.name+' '+t.surname).join(', ')||'—'}</td>
+                ${currentUser.role==='admin'?`<td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="openEditClass('${c.id}')">${icons.edit}</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteClass('${c.id}')">${icons.trash}</button>
+                  </div>
+                </td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddClass() {
+  openModal('Shto Klasë',`
+    <div class="form-group"><label>Emri i Klasës *</label><input type="text" id="f-cname" placeholder="p.sh. 6/A, 7/B"></div>
+    <div class="form-group"><label>Shkolla *</label><select id="f-cschool"><option value="">Zgjidh shkollën</option>${schoolOptions()}</select></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveClass()">Ruaj</button>
+  `);
+}
+
+function saveClass(editId=null) {
+  const name=document.getElementById('f-cname').value.trim();
+  const schoolId=document.getElementById('f-cschool').value;
+  if(!name||!schoolId) { showToast('Plotësoni të gjitha fushat!','error'); return; }
+  const classes=getClasses();
+  if(editId) {
+    const i=classes.findIndex(c=>c.id===editId);
+    if(i>=0) classes[i]={...classes[i],name,schoolId};
+  } else {
+    classes.push({id:uid(),name,schoolId});
+  }
+  DB.set('classes',classes);
+  closeModal();
+  showToast(editId?'Klasa u përditësua!':'Klasa u shtua!','success');
+  navigateTo('classes');
+}
+
+function openEditClass(id) {
+  const c=getClasses().find(x=>x.id===id);
+  if(!c) return;
+  openModal('Edito Klasën',`
+    <div class="form-group"><label>Emri *</label><input type="text" id="f-cname" value="${c.name}"></div>
+    <div class="form-group"><label>Shkolla *</label><select id="f-cschool">${schoolOptions(c.schoolId)}</select></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveClass('${id}')">Ruaj</button>
+  `);
+}
+
+function deleteClass(id) {
+  if(!confirm('Fshijeni klasën?')) return;
+  DB.set('classes',getClasses().filter(c=>c.id!==id));
+  showToast('Klasa u fshi.','success');
+  navigateTo('classes');
+}
+
+// ============================================================
+// TEACHERS
+// ============================================================
+function renderTeachers(pc, actions) {
+  if(currentUser.role==='admin'||currentUser.role==='manager') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddTeacher()">${icons.plus} Shto Mësues</button>`;
+  }
+  const teachers=getTeachers();
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Mësuesit</h3>
+        <div class="search-wrap"><svg>${icons.search}</svg><input class="search-input" placeholder="Kërko mësues..." oninput="filterTable(this,'teachers-tbody')"></div>
+      </div>
+      <div class="table-wrap">
+        ${teachers.length===0?`<div class="empty-state">${icons.teacher}<p>Nuk ka mësues.</p></div>`:`
+        <table>
+          <thead><tr><th>Emri</th><th>Email</th><th>Telefoni</th><th>Klasa</th><th>Shkolla</th><th>Veprime</th></tr></thead>
+          <tbody id="teachers-tbody">
+            ${teachers.map(t=>`
+              <tr>
+                <td><strong>${t.name} ${t.surname}</strong></td>
+                <td>${t.email||'—'}</td>
+                <td>${t.phone||'—'}</td>
+                <td>${getClassName(t.classId)}</td>
+                <td>${getSchoolName(t.schoolId)}</td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="openEditTeacher('${t.id}')">${icons.edit}</button>
+                    ${currentUser.role==='admin'?`<button class="btn btn-danger btn-sm" onclick="deleteTeacher('${t.id}')">${icons.trash}</button>`:''}
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function filterTable(input, tbodyId) {
+  const q=input.value.toLowerCase();
+  const rows=document.getElementById(tbodyId)?.querySelectorAll('tr')||[];
+  rows.forEach(r=>{ r.style.display=r.textContent.toLowerCase().includes(q)?'':'none'; });
+}
+
+function openAddTeacher() {
+  openModal('Shto Mësues',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-tname" placeholder="Emri"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-tsurname" placeholder="Mbiemri"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Email</label><input type="email" id="f-temail" placeholder="email@shembulli.al"></div>
+      <div class="form-group"><label>Telefoni</label><input type="tel" id="f-tphone" placeholder="+383..."></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Qyteti</label><input type="text" id="f-tcity" placeholder="Prishtinë"></div>
+      <div class="form-group"><label>Shkolla</label><select id="f-tschool" onchange="updateClassDropdown()"><option value="">Zgjidh shkollën</option>${schoolOptions()}</select></div>
+    </div>
+    <div class="form-group"><label>Klasa</label><select id="f-tclass"><option value="">Zgjidh klasën</option>${classOptions()}</select></div>
+    <div class="separator"></div>
+    <p style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Kredencialet e hyrjes</p>
+    <div class="grid-2">
+      <div class="form-group"><label>Emri i përdoruesit *</label><input type="text" id="f-tusr" placeholder="mesues1"></div>
+      <div class="form-group"><label>Fjalëkalimi *</label><input type="password" id="f-tpwd" placeholder="•••••••"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveTeacher()">Ruaj</button>
+  `);
+}
+
+function updateClassDropdown() {
+  const schoolId=document.getElementById('f-tschool')?.value;
+  const sel=document.getElementById('f-tclass');
+  if(!sel) return;
+  const filtered=getClasses().filter(c=>!schoolId||c.schoolId===schoolId);
+  sel.innerHTML=`<option value="">Zgjidh klasën</option>`+filtered.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+function saveTeacher(editId=null) {
+  const name=document.getElementById('f-tname').value.trim();
+  const surname=document.getElementById('f-tsurname').value.trim();
+  const usr=document.getElementById('f-tusr').value.trim();
+  const pwd=document.getElementById('f-tpwd').value;
+  if(!name||!surname) { showToast('Emri dhe mbiemri janë të detyrueshme!','error'); return; }
+  if(!editId && (!usr||!pwd)) { showToast('Kredencialet janë të detyrueshme!','error'); return; }
+
+  const users=getUsers();
+  const teachers=getTeachers();
+
+  if(!editId) {
+    if(users.find(u=>u.username===usr)) { showToast('Ky emër përdoruesi ekziston!','error'); return; }
+    const teacherId=uid();
+    teachers.push({
+      id:teacherId, name, surname,
+      email:document.getElementById('f-temail').value.trim(),
+      phone:document.getElementById('f-tphone').value.trim(),
+      city:document.getElementById('f-tcity').value.trim(),
+      schoolId:document.getElementById('f-tschool').value,
+      classId:document.getElementById('f-tclass').value,
+    });
+    users.push({id:uid(), username:usr, password:hashPwd(pwd), role:'teacher', name, surname, teacherId, classId:document.getElementById('f-tclass').value});
+    DB.set('users',users);
+  } else {
+    const i=teachers.findIndex(t=>t.id===editId);
+    if(i>=0) {
+      teachers[i]={...teachers[i], name, surname,
+        email:document.getElementById('f-temail').value.trim(),
+        phone:document.getElementById('f-tphone').value.trim(),
+        city:document.getElementById('f-tcity').value.trim(),
+        schoolId:document.getElementById('f-tschool').value,
+        classId:document.getElementById('f-tclass').value,
+      };
+      if(pwd) {
+        const ui=users.findIndex(u=>u.teacherId===editId);
+        if(ui>=0) { users[ui].password=hashPwd(pwd); DB.set('users',users); }
+      }
+    }
+  }
+  DB.set('teachers',teachers);
+  closeModal();
+  showToast(editId?'Mësuesi u përditësua!':'Mësuesi u shtua!','success');
+  navigateTo('teachers');
+}
+
+function openEditTeacher(id) {
+  const t=getTeachers().find(x=>x.id===id);
+  if(!t) return;
+  const u=getUsers().find(u=>u.teacherId===id);
+  openModal('Edito Mësuesin',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-tname" value="${t.name}"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-tsurname" value="${t.surname}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Email</label><input type="email" id="f-temail" value="${t.email||''}"></div>
+      <div class="form-group"><label>Telefoni</label><input type="tel" id="f-tphone" value="${t.phone||''}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Qyteti</label><input type="text" id="f-tcity" value="${t.city||''}"></div>
+      <div class="form-group"><label>Shkolla</label><select id="f-tschool" onchange="updateClassDropdown()">${schoolOptions(t.schoolId)}</select></div>
+    </div>
+    <div class="form-group"><label>Klasa</label><select id="f-tclass">${classOptions(t.classId)}</select></div>
+    <div class="separator"></div>
+    <p style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Ndrysho fjalëkalimin (lëre bosh nëse nuk ndryshon)</p>
+    <div class="grid-2">
+      <div class="form-group"><label>Emri i përdoruesit</label><input type="text" id="f-tusr" value="${u?u.username:''}" disabled></div>
+      <div class="form-group"><label>Fjalëkalimi i ri</label><input type="password" id="f-tpwd" placeholder="Lëre bosh"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveTeacher('${id}')">Ruaj</button>
+  `);
+}
+
+function deleteTeacher(id) {
+  if(!confirm('Fshijeni mësuesin?')) return;
+  DB.set('teachers',getTeachers().filter(t=>t.id!==id));
+  const users=getUsers().filter(u=>u.teacherId!==id);
+  DB.set('users',users);
+  showToast('Mësuesi u fshi.','success');
+  navigateTo('teachers');
+}
+
+// ============================================================
+// MANAGERS
+// ============================================================
+function renderManagers(pc, actions) {
+  if(currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddManager()">${icons.plus} Shto Menaxher</button>`;
+  }
+  const managers=getUsers().filter(u=>u.role==='manager');
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Menaxherët</h3></div>
+      <div class="table-wrap">
+        ${managers.length===0?`<div class="empty-state">${icons.user}<p>Nuk ka menaxherë.</p></div>`:`
+        <table>
+          <thead><tr><th>Emri</th><th>Përdoruesi</th><th>Email</th><th>Veprime</th></tr></thead>
+          <tbody>
+            ${managers.map(m=>`
+              <tr>
+                <td><strong>${m.name||''} ${m.surname||''}</strong></td>
+                <td><code style="background:var(--gray-100);padding:2px 6px;border-radius:4px;font-size:12px;">${m.username}</code></td>
+                <td>${m.email||'—'}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" onclick="deleteManager('${m.id}')">${icons.trash}</button>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddManager() {
+  openModal('Shto Menaxher',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-mname" placeholder="Emri"></div>
+      <div class="form-group"><label>Mbiemri</label><input type="text" id="f-msurname" placeholder="Mbiemri"></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" id="f-memail" placeholder="email@..."></div>
+    <div class="separator"></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Emri i përdoruesit *</label><input type="text" id="f-musr" placeholder="menaxher1"></div>
+      <div class="form-group"><label>Fjalëkalimi *</label><input type="password" id="f-mpwd" placeholder="•••••••"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveManager()">Ruaj</button>
+  `);
+}
+
+function saveManager() {
+  const name=document.getElementById('f-mname').value.trim();
+  const usr=document.getElementById('f-musr').value.trim();
+  const pwd=document.getElementById('f-mpwd').value;
+  if(!name||!usr||!pwd) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const users=getUsers();
+  if(users.find(u=>u.username===usr)) { showToast('Ky emër përdoruesi ekziston!','error'); return; }
+  users.push({id:uid(), username:usr, password:hashPwd(pwd), role:'manager', name, surname:document.getElementById('f-msurname').value.trim(), email:document.getElementById('f-memail').value.trim()});
+  DB.set('users',users);
+  closeModal();
+  showToast('Menaxheri u shtua!','success');
+  navigateTo('managers');
+}
+
+function deleteManager(id) {
+  if(!confirm('Fshijeni menaxherin?')) return;
+  DB.set('users',getUsers().filter(u=>u.id!==id));
+  showToast('Menaxheri u fshi.','success');
+  navigateTo('managers');
+}
+
+// ============================================================
+// STUDENTS
+// ============================================================
+function renderStudents(pc, actions) {
+  const canAdd = currentUser.role==='admin'||currentUser.role==='manager'||currentUser.role==='teacher';
+  if(canAdd) {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddStudent()">${icons.plus} Shto Nxënës</button>`;
+  }
+
+  const students=getMyStudents();
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Nxënësit</h3>
+        <div class="search-wrap"><svg>${icons.search}</svg><input class="search-input" placeholder="Kërko..." oninput="filterTable(this,'students-tbody')"></div>
+      </div>
+      <div class="table-wrap">
+        ${students.length===0?`<div class="empty-state">${icons.student}<p>Nuk ka nxënës.</p></div>`:`
+        <table>
+          <thead><tr><th>Emri</th><th>Gjinia</th><th>Klasa</th><th>Shkolla</th><th>Veprime</th></tr></thead>
+          <tbody id="students-tbody">
+            ${students.map(s=>`
+              <tr>
+                <td><strong style="cursor:pointer;color:var(--blue);" onclick="viewStudent(`${s.id}`)">${s.name} ${s.surname}</strong></td>
+                <td><span class="badge ${s.gender==='F'?'badge-purple':'badge-blue'}">${s.gender==='F'?'Femër':'Mashkull'}</span></td>
+                <td>${getClassName(s.classId)}</td>
+                <td>${getSchoolName(s.schoolId)}</td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="viewStudent('${s.id}')">${icons.eye} Shiko</button>
+                    ${canAdd?`<button class="btn btn-secondary btn-sm" onclick="openEditStudent('${s.id}')">${icons.edit}</button>`:''}
+                    ${currentUser.role==='admin'?`<button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">${icons.trash}</button>`:''}
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddStudent() {
+  openModal('Shto Nxënës',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-stname" placeholder="Emri"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-stsurname" placeholder="Mbiemri"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Gjinia *</label>
+        <select id="f-stgender">
+          <option value="M">Mashkull</option>
+          <option value="F">Femër</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Data e lindjes</label><input type="text" id="f-stbirth" placeholder="dd/mm/yyyy"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Shkolla</label><select id="f-stschool"><option value="">Zgjidh shkollën</option>${schoolOptions()}</select></div>
+      <div class="form-group"><label>Klasa</label><select id="f-stclass"><option value="">Zgjidh klasën</option>${classOptions(currentUser.role==='teacher'?currentUser.classId:'')}</select></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveStudent()">Ruaj</button>
+  `);
+}
+
+function saveStudent(editId=null) {
+  const name=document.getElementById('f-stname').value.trim();
+  const surname=document.getElementById('f-stsurname').value.trim();
+  if(!name||!surname) { showToast('Emri dhe mbiemri janë të detyrueshme!','error'); return; }
+  const students=getStudents();
+  const classId=document.getElementById('f-stclass').value || (currentUser.role==='teacher'?currentUser.classId:'');
+  const schoolId=document.getElementById('f-stschool').value;
+  if(editId) {
+    const i=students.findIndex(s=>s.id===editId);
+    if(i>=0) students[i]={...students[i],name,surname,gender:document.getElementById('f-stgender').value,birth:document.getElementById('f-stbirth').value,classId,schoolId};
+  } else {
+    students.push({id:uid(),name,surname,gender:document.getElementById('f-stgender').value,birth:document.getElementById('f-stbirth').value,classId,schoolId});
+  }
+  DB.set('students',students);
+  closeModal();
+  showToast(editId?'Nxënësi u përditësua!':'Nxënësi u shtua!','success');
+  navigateTo('students');
+}
+
+function openEditStudent(id) {
+  const s=getStudents().find(x=>x.id===id);
+  if(!s) return;
+  openModal('Edito Nxënësin',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-stname" value="${s.name}"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-stsurname" value="${s.surname}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Gjinia</label><select id="f-stgender"><option value="M" ${s.gender==='M'?'selected':''}>Mashkull</option><option value="F" ${s.gender==='F'?'selected':''}>Femër</option></select></div>
+      <div class="form-group"><label>Data e lindjes</label><input type="text" id="f-stbirth" value="${s.birth||''}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Shkolla</label><select id="f-stschool">${schoolOptions(s.schoolId)}</select></div>
+      <div class="form-group"><label>Klasa</label><select id="f-stclass">${classOptions(s.classId)}</select></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveStudent('${id}')">Ruaj</button>
+  `);
+}
+
+function deleteStudent(id) {
+  if(!confirm('Fshijeni nxënësin? Të dhënat e lidhura gjithashtu do të fshihen.')) return;
+  DB.set('students',getStudents().filter(s=>s.id!==id));
+  DB.set('grades',getGrades().filter(g=>g.studentId!==id));
+  DB.set('behaviors',getBehaviors().filter(b=>b.studentId!==id));
+  DB.set('homework',getHomework().filter(h=>h.studentId!==id));
+  DB.set('tests',getTests().filter(t=>t.studentId!==id));
+  DB.set('activities',getActivities().filter(a=>a.studentId!==id));
+  showToast('Nxënësi u fshi.','success');
+  navigateTo('students');
+}
+
+function viewStudent(id) {
+  const s=getStudents().find(x=>x.id===id);
+  if(!s) return;
+  const grades=getGrades().filter(g=>g.studentId===id);
+  const behaviors=getBehaviors().filter(b=>b.studentId===id);
+  const hw=getHomework().filter(h=>h.studentId===id);
+  const tests=getTests().filter(t=>t.studentId===id);
+  const acts=getActivities().filter(a=>a.studentId===id);
+
+  openModal(s.name+' '+s.surname,`
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+      <div class="user-avatar" style="width:50px;height:50px;font-size:20px;border-radius:14px;">${s.name[0]}</div>
+      <div>
+        <h3 style="font-size:16px;font-weight:700;">${s.name} ${s.surname}</h3>
+        <p class="text-muted">${getClassName(s.classId)} — ${getSchoolName(s.schoolId)}</p>
+        <span class="badge ${s.gender==='F'?'badge-purple':'badge-blue'}" style="margin-top:4px;">${s.gender==='F'?'Femër':'Mashkull'}</span>
+      </div>
+    </div>
+    <div class="detail-tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tab-grades')">Notat (${grades.length})</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-behavior')">Sjellja (${behaviors.length})</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-hw')">Detyra (${hw.length})</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-tests')">Teste (${tests.length})</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-acts')">Aktivitete (${acts.length})</button>
+    </div>
+    <div id="tab-grades" class="tab-panel active">
+      ${grades.length===0?'<p class="text-muted">Nuk ka nota.</p>':grades.map(g=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);">
+          <div class="grade-badge badge badge-${gradeColor(g.grade)}">${g.grade}</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600">${g.subject||'—'}</div><div class="text-muted">${g.date||''}</div></div>
+          ${currentUser.role!=='parent'?`<button class="btn btn-danger btn-sm" onclick="deleteGrade('${g.id}','${id}')">${icons.trash}</button>`:''}
+        </div>`).join('')}
+    </div>
+    <div id="tab-behavior" class="tab-panel">
+      ${behaviors.length===0?'<p class="text-muted">Nuk ka shënime sjelljeje.</p>':behaviors.map(b=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--gray-100);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="badge badge-${b.type==='pozitiv'?'green':b.type==='negativ'?'red':'orange'}">${b.type||'neutral'}</span>
+            <span class="text-muted">${b.date||''}</span>
+          </div>
+          <p style="margin-top:6px;font-size:13px;color:var(--gray-700)">${b.note||''}</p>
+        </div>`).join('')}
+    </div>
+    <div id="tab-hw" class="tab-panel">
+      ${hw.length===0?'<p class="text-muted">Nuk ka detyra.</p>':hw.map(h=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--gray-100);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <strong style="font-size:13px">${h.subject||'—'}</strong>
+            <span class="badge badge-${h.done?'green':'orange'}">${h.done?'Bërë':'Pabërë'}</span>
+          </div>
+          <p class="text-muted">${h.description||''}</p>
+          <p class="text-muted">${h.date||''}</p>
+        </div>`).join('')}
+    </div>
+    <div id="tab-tests" class="tab-panel">
+      ${tests.length===0?'<p class="text-muted">Nuk ka teste.</p>':tests.map(t=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--gray-100);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div><strong style="font-size:13px">${t.subject||'—'}</strong><span class="badge badge-${gradeColor(t.grade)} ml-8" style="margin-left:8px;">${t.grade||''}</span></div>
+            <span class="text-muted">${t.date||''}</span>
+          </div>
+          ${t.fileData?`<button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="viewTestFile('${t.id}')">${icons.eye} Shiko testin</button>`:''}
+        </div>`).join('')}
+    </div>
+    <div id="tab-acts" class="tab-panel">
+      ${acts.length===0?'<p class="text-muted">Nuk ka aktivitete.</p>':acts.map(a=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--gray-100);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <strong style="font-size:13px">${a.day||''}</strong>
+            <span class="text-muted">${a.date||''}</span>
+          </div>
+          <p style="font-size:13px;color:var(--gray-700);margin-top:4px">${a.description||''}</p>
+          ${a.notes?`<p class="text-muted">${a.notes}</p>`:''}
+        </div>`).join('')}
+    </div>
+  `,'<button class="btn btn-secondary" onclick="closeModal()">Mbyll</button>');
+}
+
+function switchTab(btn, panelId) {
+  btn.closest('.modal-body').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.modal-body').querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId)?.classList.add('active');
+}
+
+function viewTestFile(testId) {
+  const t=getTests().find(x=>x.id===testId);
+  if(!t||!t.fileData) return;
+  const win=window.open();
+  win.document.write(`<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;">
+    ${t.fileType&&t.fileType.includes('pdf')?
+      `<embed src="${t.fileData}" type="application/pdf" style="width:100vw;height:100vh;">`:
+      `<img src="${t.fileData}" style="max-width:100%;max-height:100vh;">`}
+  </body></html>`);
+}
+
+// ============================================================
+// PARENTS
+// ============================================================
+function renderParents(pc, actions) {
+  const canAdd=currentUser.role==='admin'||currentUser.role==='manager';
+  if(canAdd) {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddParent()">${icons.plus} Shto Prind</button>`;
+  }
+  const parents=getParents();
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Prindërit</h3></div>
+      <div class="table-wrap">
+        ${parents.length===0?`<div class="empty-state">${icons.parent}<p>Nuk ka prindër.</p></div>`:`
+        <table>
+          <thead><tr><th>Emri</th><th>Telefoni</th><th>Vendi</th><th>Fëmija</th><th>Veprime</th></tr></thead>
+          <tbody>
+            ${parents.map(p=>`
+              <tr>
+                <td><strong>${p.name} ${p.surname}</strong></td>
+                <td>${p.phone||'—'}</td>
+                <td>${p.city||'—'}</td>
+                <td>${getStudentName(p.studentId)}</td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="openEditParent('${p.id}')">${icons.edit}</button>
+                    ${currentUser.role==='admin'?`<button class="btn btn-danger btn-sm" onclick="deleteParent('${p.id}')">${icons.trash}</button>`:''}
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddParent() {
+  openModal('Shto Prind',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-pname" placeholder="Emri"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-psurname" placeholder="Mbiemri"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Telefoni</label><input type="tel" id="f-pphone" placeholder="+383..."></div>
+      <div class="form-group"><label>Vendi</label><input type="text" id="f-pcity" placeholder="Prishtinë"></div>
+    </div>
+    <div class="form-group"><label>Fëmija *</label><select id="f-pstudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="separator"></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Emri i përdoruesit *</label><input type="text" id="f-pusr" placeholder="prindi1"></div>
+      <div class="form-group"><label>Fjalëkalimi *</label><input type="password" id="f-ppwd" placeholder="•••••••"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveParent()">Ruaj</button>
+  `);
+}
+
+function saveParent(editId=null) {
+  const name=document.getElementById('f-pname').value.trim();
+  const surname=document.getElementById('f-psurname').value.trim();
+  const studentId=document.getElementById('f-pstudent').value;
+  const usr=editId?null:document.getElementById('f-pusr')?.value.trim();
+  const pwd=document.getElementById('f-ppwd')?.value;
+  if(!name||!surname||!studentId) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  if(!editId&&(!usr||!pwd)) { showToast('Kredencialet janë të detyrueshme!','error'); return; }
+
+  const parents=getParents();
+  const users=getUsers();
+
+  if(!editId) {
+    if(users.find(u=>u.username===usr)) { showToast('Ky emër përdoruesi ekziston!','error'); return; }
+    const pId=uid();
+    parents.push({id:pId,name,surname,phone:document.getElementById('f-pphone').value.trim(),city:document.getElementById('f-pcity').value.trim(),studentId});
+    users.push({id:uid(),username:usr,password:hashPwd(pwd),role:'parent',name,surname,studentId,parentId:pId});
+    DB.set('users',users);
+  } else {
+    const i=parents.findIndex(p=>p.id===editId);
+    if(i>=0) parents[i]={...parents[i],name,surname,phone:document.getElementById('f-pphone').value.trim(),city:document.getElementById('f-pcity').value.trim(),studentId};
+    if(pwd) {
+      const ui=users.findIndex(u=>u.parentId===editId);
+      if(ui>=0) { users[ui].password=hashPwd(pwd); users[ui].studentId=studentId; DB.set('users',users); }
+    }
+  }
+  DB.set('parents',parents);
+  closeModal();
+  showToast(editId?'Prindi u përditësua!':'Prindi u shtua!','success');
+  navigateTo('parents');
+}
+
+function openEditParent(id) {
+  const p=getParents().find(x=>x.id===id);
+  if(!p) return;
+  openModal('Edito Prindin',`
+    <div class="grid-2">
+      <div class="form-group"><label>Emri *</label><input type="text" id="f-pname" value="${p.name}"></div>
+      <div class="form-group"><label>Mbiemri *</label><input type="text" id="f-psurname" value="${p.surname}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Telefoni</label><input type="tel" id="f-pphone" value="${p.phone||''}"></div>
+      <div class="form-group"><label>Vendi</label><input type="text" id="f-pcity" value="${p.city||''}"></div>
+    </div>
+    <div class="form-group"><label>Fëmija *</label><select id="f-pstudent"><option value="">Zgjidh nxënësin</option>${studentOptions(p.studentId)}</select></div>
+    <div class="separator"></div>
+    <div class="form-group"><label>Fjalëkalimi i ri (opsional)</label><input type="password" id="f-ppwd" placeholder="Lëre bosh nëse nuk ndryshon"></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveParent('${id}')">Ruaj</button>
+  `);
+}
+
+function deleteParent(id) {
+  if(!confirm('Fshijeni prindin?')) return;
+  DB.set('parents',getParents().filter(p=>p.id!==id));
+  DB.set('users',getUsers().filter(u=>u.parentId!==id));
+  showToast('Prindi u fshi.','success');
+  navigateTo('parents');
+}
+
+// ============================================================
+// GRADES
+// ============================================================
+function renderGrades(pc, actions) {
+  const students=getMyStudents();
+  if(currentUser.role==='teacher'||currentUser.role==='admin'||currentUser.role==='manager') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddGrade()">${icons.plus} Shto Notë</button>`;
+  }
+  const grades=getGrades().filter(g=>students.some(s=>s.id===g.studentId));
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Notat</h3>
+        <div class="search-wrap"><svg>${icons.search}</svg><input class="search-input" placeholder="Kërko..." oninput="filterTable(this,'grades-tbody')"></div>
+      </div>
+      <div class="table-wrap">
+        ${grades.length===0?`<div class="empty-state">${icons.grade}<p>Nuk ka nota.</p></div>`:`
+        <table>
+          <thead><tr><th>Nxënësi</th><th>Lënda</th><th>Nota</th><th>Data</th>${currentUser.role!=='parent'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody id="grades-tbody">
+            ${grades.map(g=>`
+              <tr>
+                <td><strong>${getStudentName(g.studentId)}</strong></td>
+                <td>${g.subject||'—'}</td>
+                <td><span class="badge badge-${gradeColor(g.grade)}">${g.grade}</span></td>
+                <td>${g.date||'—'}</td>
+                ${currentUser.role!=='parent'?`<td>
+                  <button class="btn btn-danger btn-sm" onclick="deleteGradeMain('${g.id}')">${icons.trash}</button>
+                </td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddGrade() {
+  openModal('Shto Notë',`
+    <div class="form-group"><label>Nxënësi *</label><select id="f-gstudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Lënda *</label><input type="text" id="f-gsubject" placeholder="p.sh. Matematikë"></div>
+      <div class="form-group"><label>Nota *</label><select id="f-ggrade"><option value="">Zgjidh notën</option>${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label>Data</label><input type="text" id="f-gdate" placeholder="dd/mm/yyyy" value="${todayStr()}"></div>
+    <div class="form-group"><label>Shënime</label><textarea id="f-gnotes" rows="2" placeholder="Shënime shtesë..."></textarea></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveGrade()">Ruaj</button>
+  `);
+}
+
+function todayStr() {
+  const d=new Date();
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function saveGrade() {
+  const studentId=document.getElementById('f-gstudent').value;
+  const subject=document.getElementById('f-gsubject').value.trim();
+  const grade=document.getElementById('f-ggrade').value;
+  if(!studentId||!subject||!grade) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const grades=getGrades();
+  grades.push({id:uid(),studentId,subject,grade,date:document.getElementById('f-gdate').value,notes:document.getElementById('f-gnotes').value});
+  DB.set('grades',grades);
+  closeModal();
+  showToast('Nota u shtua!','success');
+  navigateTo('grades');
+}
+
+function deleteGradeMain(id) {
+  if(!confirm('Fshijeni notën?')) return;
+  DB.set('grades',getGrades().filter(g=>g.id!==id));
+  showToast('Nota u fshi.','success');
+  navigateTo('grades');
+}
+
+function deleteGrade(id, studentId) {
+  if(!confirm('Fshijeni notën?')) return;
+  DB.set('grades',getGrades().filter(g=>g.id!==id));
+  showToast('Nota u fshi.','success');
+  viewStudent(studentId);
+}
+
+// ============================================================
+// BEHAVIORS
+// ============================================================
+function renderBehaviors(pc, actions) {
+  const students=getMyStudents();
+  if(currentUser.role==='teacher'||currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddBehavior()">${icons.plus} Shto Sjellje</button>`;
+  }
+  const behaviors=getBehaviors().filter(b=>students.some(s=>s.id===b.studentId));
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Sjellja e Nxënësve</h3></div>
+      <div class="table-wrap">
+        ${behaviors.length===0?`<div class="empty-state"><p>Nuk ka shënime sjelljeje.</p></div>`:`
+        <table>
+          <thead><tr><th>Nxënësi</th><th>Lloji</th><th>Shënim</th><th>Data</th>${currentUser.role!=='parent'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody>
+            ${behaviors.map(b=>`
+              <tr>
+                <td><strong>${getStudentName(b.studentId)}</strong></td>
+                <td><span class="badge badge-${b.type==='pozitiv'?'green':b.type==='negativ'?'red':'orange'}">${b.type}</span></td>
+                <td>${b.note||'—'}</td>
+                <td>${b.date||'—'}</td>
+                ${currentUser.role!=='parent'?`<td><button class="btn btn-danger btn-sm" onclick="deleteBehavior('${b.id}')">${icons.trash}</button></td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddBehavior() {
+  openModal('Shto Shënim Sjelljeje',`
+    <div class="form-group"><label>Nxënësi *</label><select id="f-bstudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="form-group"><label>Lloji *</label>
+      <select id="f-btype">
+        <option value="pozitiv">Pozitiv</option>
+        <option value="neutral">Neutral</option>
+        <option value="negativ">Negativ</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Shënimi *</label><textarea id="f-bnote" rows="3" placeholder="Përshkrimi i sjelljes..."></textarea></div>
+    <div class="form-group"><label>Data</label><input type="text" id="f-bdate" value="${todayStr()}" placeholder="dd/mm/yyyy"></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveBehavior()">Ruaj</button>
+  `);
+}
+
+function saveBehavior() {
+  const studentId=document.getElementById('f-bstudent').value;
+  const note=document.getElementById('f-bnote').value.trim();
+  if(!studentId||!note) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const behaviors=getBehaviors();
+  behaviors.push({id:uid(),studentId,type:document.getElementById('f-btype').value,note,date:document.getElementById('f-bdate').value});
+  DB.set('behaviors',behaviors);
+  closeModal();
+  showToast('Sjellja u regjistrua!','success');
+  navigateTo('behaviors');
+}
+
+function deleteBehavior(id) {
+  if(!confirm('Fshijeni shënimin?')) return;
+  DB.set('behaviors',getBehaviors().filter(b=>b.id!==id));
+  showToast('Shënimi u fshi.','success');
+  navigateTo('behaviors');
+}
+
+// ============================================================
+// HOMEWORK
+// ============================================================
+function renderHomework(pc, actions) {
+  const students=getMyStudents();
+  if(currentUser.role==='teacher'||currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddHomework()">${icons.plus} Shto Detyrë</button>`;
+  }
+  const hw=getHomework().filter(h=>students.some(s=>s.id===h.studentId));
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Detyrat Shtëpie</h3></div>
+      <div class="table-wrap">
+        ${hw.length===0?`<div class="empty-state">${icons.homework}<p>Nuk ka detyra.</p></div>`:`
+        <table>
+          <thead><tr><th>Nxënësi</th><th>Lënda</th><th>Përshkrimi</th><th>Statusi</th><th>Data</th>${currentUser.role!=='parent'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody>
+            ${hw.map(h=>`
+              <tr>
+                <td><strong>${getStudentName(h.studentId)}</strong></td>
+                <td>${h.subject||'—'}</td>
+                <td>${h.description||'—'}</td>
+                <td><span class="badge badge-${h.done?'green':'orange'}">${h.done?'Bërë':'Pabërë'}</span></td>
+                <td>${h.date||'—'}</td>
+                ${currentUser.role!=='parent'?`<td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-success btn-sm" onclick="toggleHomework('${h.id}')" title="${h.done?'Shëno si Pabërë':'Shëno si Bërë'}">${h.done?'↩':'✓'}</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteHomework('${h.id}')">${icons.trash}</button>
+                  </div>
+                </td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddHomework() {
+  openModal('Shto Detyrë Shtëpie',`
+    <div class="form-group"><label>Nxënësi *</label><select id="f-hwstudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="form-group"><label>Lënda *</label><input type="text" id="f-hwsubject" placeholder="Lënda"></div>
+    <div class="form-group"><label>Përshkrimi *</label><textarea id="f-hwdesc" rows="3" placeholder="Detyrët..."></textarea></div>
+    <div class="form-group"><label>Data</label><input type="text" id="f-hwdate" value="${todayStr()}" placeholder="dd/mm/yyyy"></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveHomework()">Ruaj</button>
+  `);
+}
+
+function saveHomework() {
+  const studentId=document.getElementById('f-hwstudent').value;
+  const subject=document.getElementById('f-hwsubject').value.trim();
+  const description=document.getElementById('f-hwdesc').value.trim();
+  if(!studentId||!subject||!description) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const hw=getHomework();
+  hw.push({id:uid(),studentId,subject,description,date:document.getElementById('f-hwdate').value,done:false});
+  DB.set('homework',hw);
+  closeModal();
+  showToast('Detyra u shtua!','success');
+  navigateTo('homework');
+}
+
+function toggleHomework(id) {
+  const hw=getHomework();
+  const i=hw.findIndex(h=>h.id===id);
+  if(i>=0) hw[i].done=!hw[i].done;
+  DB.set('homework',hw);
+  navigateTo('homework');
+}
+
+function deleteHomework(id) {
+  if(!confirm('Fshijeni detyrën?')) return;
+  DB.set('homework',getHomework().filter(h=>h.id!==id));
+  showToast('Detyra u fshi.','success');
+  navigateTo('homework');
+}
+
+// ============================================================
+// TESTS
+// ============================================================
+function renderTests(pc, actions) {
+  const students=getMyStudents();
+  if(currentUser.role==='teacher'||currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddTest()">${icons.plus} Shto Test</button>`;
+  }
+  const tests=getTests().filter(t=>students.some(s=>s.id===t.studentId));
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Testet</h3></div>
+      <div class="table-wrap">
+        ${tests.length===0?`<div class="empty-state">${icons.test}<p>Nuk ka teste.</p></div>`:`
+        <table>
+          <thead><tr><th>Nxënësi</th><th>Lënda</th><th>Nota</th><th>Data</th><th>Dokumenti</th>${currentUser.role!=='parent'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody>
+            ${tests.map(t=>`
+              <tr>
+                <td><strong>${getStudentName(t.studentId)}</strong></td>
+                <td>${t.subject||'—'}</td>
+                <td><span class="badge badge-${gradeColor(t.grade)}">${t.grade||'—'}</span></td>
+                <td>${t.date||'—'}</td>
+                <td>${t.fileData?`<button class="btn btn-secondary btn-sm" onclick="openTestFile('${t.id}')">${icons.eye} Shiko</button>`:'<span class="text-muted">—</span>'}</td>
+                ${currentUser.role!=='parent'?`<td><button class="btn btn-danger btn-sm" onclick="deleteTest('${t.id}')">${icons.trash}</button></td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddTest() {
+  openModal('Shto Test',`
+    <div class="form-group"><label>Nxënësi *</label><select id="f-tstudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Lënda *</label><input type="text" id="f-tsubject" placeholder="Lënda"></div>
+      <div class="form-group"><label>Nota</label><select id="f-tgrade"><option value="">—</option>${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label>Data</label><input type="text" id="f-tdate" value="${todayStr()}" placeholder="dd/mm/yyyy"></div>
+    <div class="form-group">
+      <label>Ngarko testin (Foto ose PDF)</label>
+      <div class="upload-area" onclick="document.getElementById('test-file').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Klikoni ose hiqni e lëshoni skedarin</p>
+        <span>PNG, JPG, PDF deri 10MB</span>
+      </div>
+      <input type="file" id="test-file" accept="image/*,.pdf" style="display:none" onchange="previewTestFile(this)">
+      <div id="test-preview"></div>
+    </div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveTest()">Ruaj</button>
+  `);
+}
+
+function previewTestFile(input) {
+  const file=input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    window._testFile={data:e.target.result, type:file.type, name:file.name};
+    document.getElementById('test-preview').innerHTML=`
+      <div class="file-preview-wrap">
+        <div class="file-preview-icon">${icons.test.replace('currentColor','var(--blue)')}</div>
+        <div class="file-preview-info">
+          <div class="file-preview-name">${file.name}</div>
+          <div class="file-preview-size">${(file.size/1024).toFixed(1)} KB</div>
+        </div>
+      </div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveTest() {
+  const studentId=document.getElementById('f-tstudent').value;
+  const subject=document.getElementById('f-tsubject').value.trim();
+  if(!studentId||!subject) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const tests=getTests();
+  tests.push({
+    id:uid(), studentId, subject,
+    grade:document.getElementById('f-tgrade').value,
+    date:document.getElementById('f-tdate').value,
+    fileData:window._testFile?.data||null,
+    fileType:window._testFile?.type||null,
+    fileName:window._testFile?.name||null,
+  });
+  window._testFile=null;
+  DB.set('tests',tests);
+  closeModal();
+  showToast('Testi u shtua!','success');
+  navigateTo('tests');
+}
+
+function openTestFile(id) {
+  const t=getTests().find(x=>x.id===id);
+  if(!t||!t.fileData) return;
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><body style="margin:0;background:#111;display:flex;align-items:center;justify-content:center;min-height:100vh;">
+    ${t.fileType&&t.fileType.includes('pdf')?
+      `<embed src="${t.fileData}" type="application/pdf" width="100%" style="height:100vh;">`:
+      `<img src="${t.fileData}" style="max-width:100%;max-height:100vh;object-fit:contain;">`}
+  </body></html>`);
+}
+
+function deleteTest(id) {
+  if(!confirm('Fshijeni testin?')) return;
+  DB.set('tests',getTests().filter(t=>t.id!==id));
+  showToast('Testi u fshi.','success');
+  navigateTo('tests');
+}
+
+// ============================================================
+// ACTIVITIES
+// ============================================================
+function renderActivities(pc, actions) {
+  const students=getMyStudents();
+  if(currentUser.role==='teacher'||currentUser.role==='admin') {
+    actions.innerHTML=`<button class="btn btn-primary btn-sm" onclick="openAddActivity()">${icons.plus} Shto Aktivitet</button>`;
+  }
+  const acts=getActivities().filter(a=>students.some(s=>s.id===a.studentId));
+  pc.innerHTML=`
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Aktivitetet Ditore</h3></div>
+      <div class="table-wrap">
+        ${acts.length===0?`<div class="empty-state">${icons.activity}<p>Nuk ka aktivitete.</p></div>`:`
+        <table>
+          <thead><tr><th>Nxënësi</th><th>Dita</th><th>Data</th><th>Përshkrimi</th><th>Shënime</th>${currentUser.role!=='parent'?'<th>Veprime</th>':''}</tr></thead>
+          <tbody>
+            ${acts.map(a=>`
+              <tr>
+                <td><strong>${getStudentName(a.studentId)}</strong></td>
+                <td>${a.day||'—'}</td>
+                <td>${a.date||'—'}</td>
+                <td>${a.description||'—'}</td>
+                <td>${a.notes||'—'}</td>
+                ${currentUser.role!=='parent'?`<td><button class="btn btn-danger btn-sm" onclick="deleteActivity('${a.id}')">${icons.trash}</button></td>`:''}
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>`;
+}
+
+function openAddActivity() {
+  const days=['E Hënë','E Martë','E Mërkurë','E Enjte','E Premte'];
+  openModal('Shto Aktivitet Ditor',`
+    <div class="form-group"><label>Nxënësi *</label><select id="f-astudent"><option value="">Zgjidh nxënësin</option>${studentOptions()}</select></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Dita *</label><select id="f-aday"><option value="">Zgjidh ditën</option>${days.map(d=>`<option value="${d}">${d}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Data</label><input type="text" id="f-adate" value="${todayStr()}" placeholder="dd/mm/yyyy"></div>
+    </div>
+    <div class="form-group"><label>Përshkrimi *</label><textarea id="f-adesc" rows="2" placeholder="Aktiviteti i ditës..."></textarea></div>
+    <div class="form-group"><label>Shënime shtesë</label><textarea id="f-anotes" rows="2" placeholder="Shënime..."></textarea></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Anulo</button>
+    <button class="btn btn-primary" onclick="saveActivity()">Ruaj</button>
+  `);
+}
+
+function saveActivity() {
+  const studentId=document.getElementById('f-astudent').value;
+  const day=document.getElementById('f-aday').value;
+  const description=document.getElementById('f-adesc').value.trim();
+  if(!studentId||!day||!description) { showToast('Plotësoni fushat e detyrueshme!','error'); return; }
+  const acts=getActivities();
+  acts.push({id:uid(),studentId,day,date:document.getElementById('f-adate').value,description,notes:document.getElementById('f-anotes').value});
+  DB.set('activities',acts);
+  closeModal();
+  showToast('Aktiviteti u shtua!','success');
+  navigateTo('activities');
+}
+
+function deleteActivity(id) {
+  if(!confirm('Fshijeni aktivitetin?')) return;
+  DB.set('activities',getActivities().filter(a=>a.id!==id));
+  showToast('Aktiviteti u fshi.','success');
+  navigateTo('activities');
+}
+
+// ============================================================
+// PARENT VIEW
+// ============================================================
+function renderChildSection(pc, type) {
+  const child=getStudents().find(s=>s.id===currentUser.studentId);
+  if(!child) {
+    pc.innerHTML=`<div class="empty-state"><p>Nuk u gjet fëmija i lidhur me llogarinë tuaj.</p></div>`;
+    return;
+  }
+
+  const childInfo=`
+    <div class="card mb-20" style="margin-bottom:16px;">
+      <div class="card-body">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="user-avatar" style="width:46px;height:46px;font-size:18px;">${child.name[0]}</div>
+          <div>
+            <h3 style="font-size:16px;font-weight:700;">${child.name} ${child.surname}</h3>
+            <p class="text-muted">${getClassName(child.classId)} — ${getSchoolName(child.schoolId)}</p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  const sid=currentUser.studentId;
+
+  if(type==='grades') {
+    const grades=getGrades().filter(g=>g.studentId===sid);
+    pc.innerHTML=childInfo+`
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Notat</h3></div>
+        <div class="table-wrap">
+          ${grades.length===0?`<div class="empty-state"><p>Nuk ka nota.</p></div>`:`
+          <table><thead><tr><th>Lënda</th><th>Nota</th><th>Data</th><th>Shënime</th></tr></thead>
+          <tbody>${grades.map(g=>`
+            <tr>
+              <td>${g.subject}</td>
+              <td><span class="badge badge-${gradeColor(g.grade)}">${g.grade}</span></td>
+              <td>${g.date||'—'}</td>
+              <td>${g.notes||'—'}</td>
+            </tr>`).join('')}
+          </tbody></table>`}
+        </div>
+      </div>`;
+  } else if(type==='behaviors') {
+    const behaviors=getBehaviors().filter(b=>b.studentId===sid);
+    pc.innerHTML=childInfo+`
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Sjellja</h3></div>
+        <div class="table-wrap">
+          ${behaviors.length===0?`<div class="empty-state"><p>Nuk ka shënime.</p></div>`:`
+          <table><thead><tr><th>Lloji</th><th>Shënim</th><th>Data</th></tr></thead>
+          <tbody>${behaviors.map(b=>`
+            <tr>
+              <td><span class="badge badge-${b.type==='pozitiv'?'green':b.type==='negativ'?'red':'orange'}">${b.type}</span></td>
+              <td>${b.note||'—'}</td>
+              <td>${b.date||'—'}</td>
+            </tr>`).join('')}
+          </tbody></table>`}
+        </div>
+      </div>`;
+  } else if(type==='homework') {
+    const hw=getHomework().filter(h=>h.studentId===sid);
+    pc.innerHTML=childInfo+`
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Detyrat Shtëpie</h3></div>
+        <div class="table-wrap">
+          ${hw.length===0?`<div class="empty-state"><p>Nuk ka detyra.</p></div>`:`
+          <table><thead><tr><th>Lënda</th><th>Përshkrimi</th><th>Statusi</th><th>Data</th></tr></thead>
+          <tbody>${hw.map(h=>`
+            <tr>
+              <td>${h.subject||'—'}</td>
+              <td>${h.description||'—'}</td>
+              <td><span class="badge badge-${h.done?'green':'orange'}">${h.done?'Bërë':'Pabërë'}</span></td>
+              <td>${h.date||'—'}</td>
+            </tr>`).join('')}
+          </tbody></table>`}
+        </div>
+      </div>`;
+  } else if(type==='tests') {
+    const tests=getTests().filter(t=>t.studentId===sid);
+    pc.innerHTML=childInfo+`
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Testet</h3></div>
+        <div class="table-wrap">
+          ${tests.length===0?`<div class="empty-state"><p>Nuk ka teste.</p></div>`:`
+          <table><thead><tr><th>Lënda</th><th>Nota</th><th>Data</th><th>Dokumenti</th></tr></thead>
+          <tbody>${tests.map(t=>`
+            <tr>
+              <td>${t.subject||'—'}</td>
+              <td><span class="badge badge-${gradeColor(t.grade)}">${t.grade||'—'}</span></td>
+              <td>${t.date||'—'}</td>
+              <td>${t.fileData?`<button class="btn btn-primary btn-sm" onclick="openTestFile('${t.id}')">${icons.eye} Shiko Testin</button>`:'—'}</td>
+            </tr>`).join('')}
+          </tbody></table>`}
+        </div>
+      </div>`;
+  } else if(type==='activities') {
+    const acts=getActivities().filter(a=>a.studentId===sid);
+    pc.innerHTML=childInfo+`
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Aktivitetet Ditore</h3></div>
+        <div class="table-wrap">
+          ${acts.length===0?`<div class="empty-state"><p>Nuk ka aktivitete.</p></div>`:`
+          <table><thead><tr><th>Dita</th><th>Data</th><th>Përshkrimi</th><th>Shënime</th></tr></thead>
+          <tbody>${acts.map(a=>`
+            <tr>
+              <td>${a.day||'—'}</td>
+              <td>${a.date||'—'}</td>
+              <td>${a.description||'—'}</td>
+              <td>${a.notes||'—'}</td>
+            </tr>`).join('')}
+          </tbody></table>`}
+        </div>
+      </div>`;
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+DB.init();
+
+// Allow pressing Enter in login
+document.getElementById('login-pass').addEventListener('keydown', e => {
+  if(e.key==='Enter') doLogin();
+});
+</script>
+</body>
+</html>
+
+
+
