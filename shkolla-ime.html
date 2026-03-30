@@ -1849,7 +1849,7 @@ function renderStudents(pc, actions) {
           <tbody id="students-tbody">
             ${students.map(s=>`
               <tr>
-                <td><strong style="cursor:pointer;color:var(--blue);" onclick="viewStudent(`${s.id}`)">${s.name} ${s.surname}</strong></td>
+                <td><strong style="cursor:pointer;color:var(--blue);" onclick="viewStudent('\')">${s.name} ${s.surname}</strong></td>
                 <td><span class="badge ${s.gender==='F'?'badge-purple':'badge-blue'}">${s.gender==='F'?'Femër':'Mashkull'}</span></td>
                 <td>${getClassName(s.classId)}</td>
                 <td>${getSchoolName(s.schoolId)}</td>
@@ -2696,6 +2696,7 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+
 
 
 
