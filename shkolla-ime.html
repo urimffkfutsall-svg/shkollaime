@@ -866,7 +866,8 @@ const DB = {
     } catch(e) { console.log('Supabase sync error:', e); }
   },
   async pullFromSupabase() {
-    const tables = ['users','schools','classes','teachers','students','parents','grades','behaviors','remarks','homework','activities','tests'];
+    try {
+      const tables = ['users','schools','classes','teachers','students','parents','grades','behaviors','remarks','homework','activities','tests'];
     try {
       for(const table of tables) {
         const {data} = await sb.from(table).select('*');
@@ -2695,6 +2696,7 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+
 
 
 
