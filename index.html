@@ -739,6 +739,12 @@ tr:hover td { background: var(--blue-light); }
 .file-preview-name { font-size:13px; font-weight:600; color:var(--gray-800); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .file-preview-size { font-size:11px; color:var(--gray-500); }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://xbswhadwwyofuazilcgo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhic3doYWR3d3lvZnVhemlsY2dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NDYzOTEsImV4cCI6MjA5MDQyMjM5MX0.Ef_VyYhX8qHFl4b9qf94QJ4-O7mxdLWA9B-Y0u7hlyI";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 </head>
 <body>
 
@@ -2668,6 +2674,7 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+
 
 
 
